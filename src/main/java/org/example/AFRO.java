@@ -1,16 +1,15 @@
 package org.example;
 
+/**
+ * PROJECT A.F.R.O  (AWARE. FORMAL. REACTIVE. OPERATIVE.)
+ * @author Leroy A.
+ */
 import io.github.cdimascio.dotenv.Dotenv;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.sharding.*;
 
 import javax.security.auth.login.LoginException;
-/**
- * @author Leroy A.
- */
-
-
 
 
 /**
@@ -28,8 +27,8 @@ public class AFRO
      */
     public AFRO() throws LoginException
     {
-        config = Dotenv.configure().load();
-        String botToken = config.get("BOTTOKEN");
+        config = Dotenv.configure().load();   //LOADS CONFIG FILE
+        String botToken = config.get("BOTTOKEN"); //SETS GLOBAL VARIABLE IN CONFIG FILE TO BOT TOKEN VARIABLE
         DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(botToken);
         builder.setStatus(OnlineStatus.ONLINE);
         builder.setActivity(Activity.watching("threats."));
@@ -49,7 +48,6 @@ public class AFRO
         return config;
 
     }
-
     public static void main(String[] args)
     {
         try
@@ -59,7 +57,6 @@ public class AFRO
         catch (LoginException e)
         {
             System.out.println("[ERROR]: PROVIDED TOKEN IS NOT VALID.");
-
         };
 
 
