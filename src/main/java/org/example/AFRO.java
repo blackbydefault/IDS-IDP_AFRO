@@ -8,6 +8,7 @@ import io.github.cdimascio.dotenv.Dotenv;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
 import net.dv8tion.jda.api.sharding.*;
+import org.example.listeners.EventListener;
 
 import javax.security.auth.login.LoginException;
 
@@ -33,6 +34,10 @@ public class AFRO
         builder.setStatus(OnlineStatus.ONLINE);
         builder.setActivity(Activity.watching("threats."));
         shardManager = builder.build();
+
+        //REGISTERED LISTENERS
+        shardManager.addEventListener(new EventListener());
+
 
     }
     /**
