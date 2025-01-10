@@ -7,7 +7,12 @@ package org.example;
 import io.github.cdimascio.dotenv.Dotenv;
 import net.dv8tion.jda.api.OnlineStatus;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.sharding.*;
+import net.dv8tion.jda.api.utils.ChunkingFilter;
+import net.dv8tion.jda.api.utils.MemberCachePolicy;
+import net.dv8tion.jda.api.utils.cache.CacheFlag;
+import org.example.commands.CommandsManager;
 import org.example.listeners.EventListener;
 
 import javax.security.auth.login.LoginException;
@@ -30,13 +35,21 @@ public class AFRO
     {
         config = Dotenv.configure().load();   //LOADS CONFIG FILE
         String botToken = config.get("BOTTOKEN"); //SETS GLOBAL VARIABLE IN CONFIG FILE TO BOT TOKEN VARIABLE
+
+        // Build shard manager
         DefaultShardManagerBuilder builder = DefaultShardManagerBuilder.createDefault(botToken);
         builder.setStatus(OnlineStatus.ONLINE);
         builder.setActivity(Activity.watching("threats."));
+        builder.enableIntents(GatewayIntent.GUILD_MEMBERS, GatewayIntent.MESSAGE_CONTENT, GatewayIntent.GUILD_MESSAGES, GatewayIntent.GUILD_PRESENCES);
+        builder.setMemberCachePolicy(MemberCachePolicy.ALL);
+        builder.setChunkingFilter(ChunkingFilter.ALL);
+        builder.enableCache(CacheFlag.ROLE_TAGS);
+
         shardManager = builder.build();
 
+
         //REGISTERED LISTENERS
-        shardManager.addEventListener(new EventListener());
+        shardManager.addEventListener(new EventListener(), new CommandsManager());
 
 
     }
