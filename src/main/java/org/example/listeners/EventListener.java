@@ -37,7 +37,6 @@ public class EventListener extends ListenerAdapter
             if (dice < 3)
             {
                 event.getChannel().sendMessage("quiet.").queue();
-
             }
             else
             {
@@ -54,6 +53,9 @@ public class EventListener extends ListenerAdapter
         {
             event.getGuild().addRoleToMember(event.getMember(), roleWanderer).queue();
         }
+
+        String userTag = event.getMember().getUser().getAsTag();
+        String logChannel = "1327454722348552294";
 
     }
 }

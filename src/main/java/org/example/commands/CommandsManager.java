@@ -16,11 +16,31 @@ public class CommandsManager extends ListenerAdapter
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event)
     {
         String command = event.getName();
-        if (command.equals("welcome"))
+        switch(command)
         {
-            String userTag = event.getUser().getAsTag();
-            event.reply(" **" + userTag + "**.").queue();
+            case "welcome":
+                String userTag = event.getUser().getAsTag();
+                event.reply(" What's good **" + userTag + "**. ").queue();
+                break;
+
+            case "info":
+                event.reply("Inspired by Afro Samurai and developed by 13LACK0UT, I am a Discord IDS (Intrusion Detection System) dedicated to detect malicious users and prevent nuking/server raids.").queue();
+                break;
+
+
+
+
+
+
+
+            default:
+                event.reply("[UNKNOWN COMMAND]  `" + command + "`").queue();
         }
+//        if (command.equals("welcome"))
+//        {
+//            String userTag = event.getUser().getAsTag();
+//            event.reply(" What's good **" + userTag + "**. ").queue();
+//        }
 
 
     }
@@ -32,6 +52,7 @@ public class CommandsManager extends ListenerAdapter
     {
         List<CommandData> commandData = new ArrayList<>();
         commandData.add(Commands.slash("welcome", "GET WELCOMED BY BOT."));
+        commandData.add(Commands.slash("info", "BOT INFORMATION."));
         event.getJDA().updateCommands().addCommands(commandData).queue();
     }
 }
