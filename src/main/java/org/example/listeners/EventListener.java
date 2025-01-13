@@ -9,6 +9,7 @@ import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
+import java.time.LocalDateTime;
 import java.util.Random;
 
 public class EventListener extends ListenerAdapter
@@ -53,9 +54,12 @@ public class EventListener extends ListenerAdapter
         {
             event.getGuild().addRoleToMember(event.getMember(), roleWanderer).queue();
         }
-
         String userTag = event.getMember().getUser().getAsTag();
         String logChannel = "1327454722348552294";
+        LocalDateTime time = LocalDateTime.now();
+        String logMessage = "[ " + userTag + " ENTERED THE SERVER AT " + time + " ] ";
+        event.getGuild().getTextChannelById(logChannel).sendMessage(logMessage).queue();
+
 
     }
 }

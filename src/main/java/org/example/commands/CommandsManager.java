@@ -18,6 +18,10 @@ public class CommandsManager extends ListenerAdapter
         String command = event.getName();
         switch(command)
         {
+            case "verify":
+                event.reply("***[ Verify Here. ]***").queue();
+                break;
+
             case "welcome":
                 String userTag = event.getUser().getAsTag();
                 event.reply(" What's good **" + userTag + "**. ").queue();
@@ -26,12 +30,6 @@ public class CommandsManager extends ListenerAdapter
             case "info":
                 event.reply("Inspired by Afro Samurai and developed by 13LACK0UT, I am a Discord IDS (Intrusion Detection System) dedicated to detect malicious users and prevent nuking/server raids.").queue();
                 break;
-
-
-
-
-
-
 
             default:
                 event.reply("[UNKNOWN COMMAND]  `" + command + "`").queue();
@@ -52,7 +50,8 @@ public class CommandsManager extends ListenerAdapter
     {
         List<CommandData> commandData = new ArrayList<>();
         commandData.add(Commands.slash("welcome", "GET WELCOMED BY BOT."));
-        commandData.add(Commands.slash("info", "BOT INFORMATION."));
+        commandData.add(Commands.slash("info", "BOT BIO."));
+        commandData.add(Commands.slash("verify", "SET VERIFY MESSAGE."));
         event.getJDA().updateCommands().addCommands(commandData).queue();
     }
 }
