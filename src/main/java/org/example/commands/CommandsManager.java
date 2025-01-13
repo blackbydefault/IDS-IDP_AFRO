@@ -28,7 +28,7 @@ public class CommandsManager extends ListenerAdapter
                 break;
 
             case "info":
-                event.reply("Inspired by Afro Samurai and developed by 13LACK0UT, I am a Discord IDS (Intrusion Detection System) dedicated to detect malicious users and prevent nuking/server raids.").queue();
+                event.reply("\nInspired by Afro Samurai and developed by 13LACK0UT, I am a Discord IDS (Intrusion Detection System) dedicated to detect malicious users and prevent nuking/server raids.").queue();
                 break;
 
             default:

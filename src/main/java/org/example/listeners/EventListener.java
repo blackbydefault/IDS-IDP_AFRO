@@ -19,17 +19,14 @@ public class EventListener extends ListenerAdapter
     {
         User user = event.getUser(); //RETRIEVES USER DATA
         String emoji = event.getReaction().getEmoji().getAsReactionCode(); //RETRIEVES EMOJI USED
-        String channelReference = event.getChannel().getAsMention(); // RETRIEVES CHANNEL REFERENCED
-
-        if (channelReference.equals("1128834160790868072") && emoji.equals("\\uD83D\\uDC51"))
+        String channelReference = event.getChannel().getId(); // RETRIEVES CHANNEL REFERENCED
+        if (channelReference.equals("1128834160790868072") && emoji.equals("\u2705"))
         {
             Role roleWanderer = event.getGuild().getRoleById(1227692003131789343L);
             if (roleWanderer != null)
             {
                 event.getGuild().addRoleToMember(user, roleWanderer).queue();
             }
-
-
         }
 
     }
@@ -56,11 +53,6 @@ public class EventListener extends ListenerAdapter
     @Override
     public void onGuildMemberJoin(@NotNull GuildMemberJoinEvent event)
     {
-        Role roleWanderer = event.getGuild().getRoleById(1227692003131789343L);
-//        if (roleWanderer != null)
-//        {
-//            event.getGuild().addRoleToMember(event.getMember(), roleWanderer).queue();
-//        }
         String userTag = event.getMember().getUser().getAsTag();
         String logChannel = "1327454722348552294";
         LocalDateTime time = LocalDateTime.now();
