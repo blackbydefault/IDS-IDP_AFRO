@@ -34,20 +34,8 @@ public class EventListener extends ListenerAdapter
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event)
     {
-        Random random = new Random();
-        int dice = random.nextInt(7);
-        String message = event.getMessage().getContentRaw();
-        if (message.contains("test"))
-        {
-            if (dice < 3)
-            {
-                event.getChannel().sendMessage("quiet.").queue();
-            }
-            else
-            {
-                event.getChannel().sendMessage("get lost.").queue();
-            }
-        }
+        User user = event.getAuthor();
+        
     }
 
     @Override
