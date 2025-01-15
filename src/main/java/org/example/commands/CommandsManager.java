@@ -1,7 +1,9 @@
 package org.example.commands;
 
+import net.dv8tion.jda.api.events.Event;
 import net.dv8tion.jda.api.events.guild.GuildReadyEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
+import net.dv8tion.jda.api.hooks.EventListener;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import net.dv8tion.jda.api.interactions.commands.build.CommandData;
 import net.dv8tion.jda.api.interactions.commands.build.Commands;
@@ -30,6 +32,7 @@ public class CommandsManager extends ListenerAdapter
             case "info":
                 event.reply("\nInspired by Afro Samurai and developed by 13LACK0UT, I am a Discord IDS (Intrusion Detection System) dedicated to detect malicious users and prevent nuking/server raids.").queue();
                 break;
+
 
             default:
                 event.reply("[UNKNOWN COMMAND]  `" + command + "`").queue();
