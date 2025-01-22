@@ -8,6 +8,7 @@ import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
+import net.dv8tion.jda.api.events.session.SessionDisconnectEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
@@ -90,6 +91,13 @@ public class EventListener extends ListenerAdapter
             event.getGuild().getTextChannelById(logChannel).sendMessage("[ALERT] INVITES HAVE BEEN RE-ENABLED.").queue();
         }
 
+    }
+
+
+    private void onUserDisconnect(SessionDisconnectEvent event)
+    {
+
+        
     }
     
 }
