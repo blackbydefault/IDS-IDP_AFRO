@@ -4,6 +4,7 @@ import net.dv8tion.jda.api.entities.Invite;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.entities.channel.Channel;
+import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
 import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
@@ -44,10 +45,27 @@ public class EventListener extends ListenerAdapter
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event)
     {
-        String logChannel = "1327454722348552294";
-        User user = event.getAuthor();
-        String logMessage = event.getMessage().getContentRaw();
-        event.getGuild().getTextChannelById(logChannel).sendMessage("[MESSAGE] "+ user.getAsTag() + "WROTE IN "+ event.getChannel() + " -> "+ logMessage).queue();
+        String logChannelID = "1333843664832692254";
+        if (event.getAuthor().isBot())
+        {
+            return;
+        }
+
+        TextChannel logChannelName = event.getGuild().getTextChannelById(logChannelID);
+        if (logChannelName == null)
+        {
+            System.err.println("[LOGGING CHANNEL IS NOT FOUND OR HASN'T BEEN INITIALIZED.]");
+                    return;
+        }
+        String userTag = event.getAuthor().getAsTag();
+        String pulledChannel = event.getChannel().getName();
+        String messageContent = event.getMessage().getContentDisplay();
+        if (messageContent.isEmpty())
+        {
+            messageContent = "[NO TEXT CONTENT]";
+        }
+        String logEntry = String.format("[LOG MESSAGE] %s WROTE IN #%s -> %s", userTag,pulledChannel,messageContent);
+        logChannelName.sendMessage(logEntry).queue();
     }
 
     @Override
