@@ -52,9 +52,9 @@ public class CommandsManager extends ListenerAdapter
     public void onGuildReady(@NotNull GuildReadyEvent event)
     {
         List<CommandData> commandData = new ArrayList<>();
-        commandData.add(Commands.slash("welcome", "GET WELCOMED BY BOT."));
+        //commandData.add(Commands.slash("welcome", "GET WELCOMED BY BOT."));
         commandData.add(Commands.slash("info", "BOT BIO."));
-        commandData.add(Commands.slash("verify", "SET VERIFY MESSAGE."));
+        commandData.add(Commands.slash("verify", "SET VERIFY ROLE MESSAGE."));
         event.getJDA().updateCommands().addCommands(commandData).queue();
     }
 }

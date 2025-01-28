@@ -20,7 +20,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class EventListener extends ListenerAdapter
 {
-    private static final int joinLimit = 10;
+    private static final int joinLimit = 5;
     private final AtomicInteger joinCount = new AtomicInteger(0);
     private boolean invitesDisabled = false;
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
@@ -44,8 +44,10 @@ public class EventListener extends ListenerAdapter
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event)
     {
+        String logChannel = "1327454722348552294";
         User user = event.getAuthor();
-        
+        String logMessage = event.getMessage().getContentRaw();
+        event.getGuild().getTextChannelById(logChannel).sendMessage("[MESSAGE] "+ user.getAsTag() + "WROTE IN "+ event.getChannel() + " -> "+ logMessage).queue();
     }
 
     @Override
@@ -57,7 +59,7 @@ public class EventListener extends ListenerAdapter
         int currentUserCount = joinCount.incrementAndGet();
         String logMessage = "[ " + userTag + " ENTERED THE SERVER AT " + time + " ] ";
         event.getGuild().getTextChannelById(logChannel).sendMessage(logMessage).queue();
-        if (currentUserCount > joinLimit)
+        if (currentUserCount > joinLimit)  //CALLS IF CONCURRENT USER JOINS HAVE EXCEEDED 5.
         {
             disableInvites(event);
             if (logChannel != null)
@@ -65,7 +67,6 @@ public class EventListener extends ListenerAdapter
                 event.getGuild().getTextChannelById(logChannel).sendMessage("[ALERT] - TOO MANY USERS HAVE JOINED CONCURRENTLY. INVITES HAVE BEEN DISABLED TEMPORARILY.").queue();
             }
             scheduler.schedule(() -> enableInvites(event), TIME_FRAME_SECONDS, TimeUnit.SECONDS);
-
         }
     }
 
@@ -76,7 +77,6 @@ public class EventListener extends ListenerAdapter
             for (Invite invite : invites) {
                 invite.delete().queue();
             }
-
         });
         invitesDisabled = true;
 

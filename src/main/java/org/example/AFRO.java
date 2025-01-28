@@ -77,7 +77,5 @@ public class AFRO
             System.out.println("[ERROR]: PROVIDED TOKEN IS NOT VALID.");
         };
 
-
-
     }
 }
