@@ -1,8 +1,6 @@
 package org.example.listeners;
 
-import net.dv8tion.jda.api.entities.Invite;
-import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.entities.User;
+import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.entities.channel.Channel;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.events.guild.member.GuildMemberJoinEvent;
@@ -10,8 +8,11 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
+import net.dv8tion.jda.api.requests.restaction.MemberAction;
 import org.jetbrains.annotations.NotNull;
-
+import net.dv8tion.jda.api.entities.Guild;
+import net.dv8tion.jda.api.entities.Member;
+import net.dv8tion.jda.api.entities.Role;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -73,9 +74,12 @@ public class EventListener extends ListenerAdapter
 
         if (isMessageSpamming(event.getAuthor().getId()))
         {
+            //long timeoutDuration = 60000;
+            User userAuthor = event.getAuthor();
+            Role roleSilenced = event.getGuild().getRoleById(1333924971369599138L);
+            event.getGuild().addRoleToMember(userAuthor, roleSilenced).queue();
             event.getAuthor().openPrivateChannel().queue(privateChannel -> privateChannel.sendMessage("[AFRO]  >>> STOP SPAMMING. ").queue());
         }
-
 
         logChannelName.sendMessage(logEntry).queue();
 
@@ -126,7 +130,7 @@ public class EventListener extends ListenerAdapter
     /**
      * Helper method to check if the user is message spamming.
      * @param discordUserID
-     * @return either true or false. 
+     * @return either true or false.
      */
     private boolean isMessageSpamming(String discordUserID)
     {
