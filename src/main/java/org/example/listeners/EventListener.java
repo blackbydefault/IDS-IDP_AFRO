@@ -13,7 +13,10 @@ import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Random;
+import java.util.TreeMap;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -21,6 +24,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class EventListener extends ListenerAdapter
 {
+    private static final Map<String, TreeMap<Long, Integer>> userMessages = new HashMap<>();
+    private static final long SPAM_TIME_WINDOW = 5000;
+    private static final int MAX_MESSAGES_IN_WINDOW = 5;
     private static final int joinLimit = 5;
     private final AtomicInteger joinCount = new AtomicInteger(0);
     private boolean invitesDisabled = false;
@@ -50,7 +56,6 @@ public class EventListener extends ListenerAdapter
         {
             return;
         }
-
         TextChannel logChannelName = event.getGuild().getTextChannelById(logChannelID);
         if (logChannelName == null)
         {
@@ -65,7 +70,15 @@ public class EventListener extends ListenerAdapter
             messageContent = "[NO TEXT CONTENT]";
         }
         String logEntry = String.format("[LOG MESSAGE] %s WROTE IN #%s -> %s", userTag,pulledChannel,messageContent);
+
+        if (isMessageSpamming(event.getAuthor().getId()))
+        {
+            event.getAuthor().openPrivateChannel().queue(privateChannel -> privateChannel.sendMessage("[AFRO]  >>> STOP SPAMMING. ").queue());
+        }
+
+
         logChannelName.sendMessage(logEntry).queue();
+
     }
 
     @Override
@@ -107,6 +120,29 @@ public class EventListener extends ListenerAdapter
         {
             event.getGuild().getTextChannelById(logChannel).sendMessage("[ALERT] INVITES HAVE BEEN RE-ENABLED.").queue();
         }
+
+    }
+
+    /**
+     * Helper method to check if the user is message spamming.
+     * @param discordUserID
+     * @return either true or false. 
+     */
+    private boolean isMessageSpamming(String discordUserID)
+    {
+        long currentTime = System.currentTimeMillis();
+
+        TreeMap<Long, Integer> timestamps = userMessages.computeIfAbsent(discordUserID, k -> new TreeMap<>());
+
+        timestamps.headMap(currentTime - SPAM_TIME_WINDOW).clear();
+
+        if(timestamps.size() >= MAX_MESSAGES_IN_WINDOW)
+        {
+            return true;
+        }
+
+        timestamps.put(currentTime, timestamps.getOrDefault(currentTime, 0) + 1);
+        return false;
 
     }
     
