@@ -71,6 +71,7 @@ public class AFRO
         try
         {
             AFRO bot = new AFRO();
+            System.out.println("[AFRO STATUS]: ONLINE");
         }
         catch (LoginException e)
         {

@@ -34,6 +34,7 @@ public class EventListener extends ListenerAdapter
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     private static final long TIME_FRAME_SECONDS = 3600; // Set the time frame for enabling invites
 
+
     /**
      * Method for handling message reactions, currently sets initial role of new member in server.
      * @param event : MessageReactionAddEvent object to represent a message reaction event
