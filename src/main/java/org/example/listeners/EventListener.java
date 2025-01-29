@@ -70,7 +70,7 @@ public class EventListener extends ListenerAdapter
         {
             messageContent = "[NO TEXT CONTENT]";
         }
-        String logEntry = String.format("```**[MESSAGE LOG]** %s WROTE IN #%s -> %s", userTag,pulledChannel,messageContent);
+        String logEntry = String.format("```**[MESSAGE LOG]** %s WROTE IN #%s ->>> %s ```", userTag,pulledChannel,messageContent);
 
         if (isMessageSpamming(event.getAuthor().getId()))
         {
@@ -78,7 +78,7 @@ public class EventListener extends ListenerAdapter
             User userAuthor = event.getAuthor();
             Role roleSilenced = event.getGuild().getRoleById(1333924971369599138L);
             event.getGuild().addRoleToMember(userAuthor, roleSilenced).queue();
-            event.getAuthor().openPrivateChannel().queue(privateChannel -> privateChannel.sendMessage("**[AFRO]**  >>> STOP SPAMMING. ").queue());
+            event.getAuthor().openPrivateChannel().queue(privateChannel -> privateChannel.sendMessage("```**[AFRO]**  >>> STOP SPAMMING. ```").queue());
         }
 
         logChannelName.sendMessage(logEntry).queue();
@@ -92,14 +92,14 @@ public class EventListener extends ListenerAdapter
         String logChannel = "1327454722348552294";
         LocalDateTime time = LocalDateTime.now();
         int currentUserCount = joinCount.incrementAndGet();
-        String logMessage = String.format("```**[USER JOIN]** %s JOINED THE SERVER AT %s",userTag,time);
+        String logMessage = String.format("```**[USER JOIN]** %s JOINED THE SERVER AT %s ```",userTag,time);
         event.getGuild().getTextChannelById(logChannel).sendMessage(logMessage).queue();
         if (currentUserCount > joinLimit)  //CALLS IF CONCURRENT USER JOINS HAVE EXCEEDED 5.
         {
             disableInvites(event);
             if (logChannel != null)
             {
-                event.getGuild().getTextChannelById(logChannel).sendMessage("```**[ALERT]** - TOO MANY USERS HAVE JOINED CONCURRENTLY. INVITES HAVE BEEN DISABLED TEMPORARILY.").queue();
+                event.getGuild().getTextChannelById(logChannel).sendMessage("```**[ALERT]** - TOO MANY USERS HAVE JOINED CONCURRENTLY. INVITES HAVE BEEN DISABLED TEMPORARILY.```").queue();
             }
             scheduler.schedule(() -> enableInvites(event), TIME_FRAME_SECONDS, TimeUnit.SECONDS);
         }
@@ -122,7 +122,7 @@ public class EventListener extends ListenerAdapter
         String logChannel = "1327454722348552294";
         if (logChannel != null)
         {
-            event.getGuild().getTextChannelById(logChannel).sendMessage("```**[ALERT]** INVITES HAVE BEEN RE-ENABLED.").queue();
+            event.getGuild().getTextChannelById(logChannel).sendMessage("```**[ALERT]** INVITES HAVE BEEN RE-ENABLED. ```").queue();
         }
 
     }
