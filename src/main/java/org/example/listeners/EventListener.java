@@ -33,6 +33,11 @@ public class EventListener extends ListenerAdapter
     private boolean invitesDisabled = false;
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
     private static final long TIME_FRAME_SECONDS = 3600; // Set the time frame for enabling invites
+
+    /**
+     * Method for handling message reactions, currently sets initial role of new member in server.
+     * @param event : MessageReactionAddEvent object to represent a message reaction event
+     */
     @Override
     public void onMessageReactionAdd(@NotNull MessageReactionAddEvent event)
     {
@@ -49,6 +54,11 @@ public class EventListener extends ListenerAdapter
         }
     }
 
+    /**
+     * Method for analysing and documenting any text message sent through any channel of the server.
+     * Also handles spam related content.
+     * @param event : MessageReceivedEvent object to represent a message event.
+     */
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event)
     {
@@ -85,6 +95,11 @@ public class EventListener extends ListenerAdapter
 
     }
 
+    /**
+     * Method for handling and documenting new members joining the guild/server.
+     * Contains a handler for DoS related activity  (user raids and server nuking).
+     * @param event : GuildMemberJoinEvent object to represent a user join event.
+     */
     @Override
     public void onGuildMemberJoin(@NotNull GuildMemberJoinEvent event)
     {
@@ -105,6 +120,10 @@ public class EventListener extends ListenerAdapter
         }
     }
 
+    /**
+     * Method to disable invites in server, used in anti-raid mechanism.
+     * @param event : GuildMemberJoinEvent object to represent a user join event.
+     */
     private void disableInvites(GuildMemberJoinEvent event)
     {
         event.getGuild().retrieveInvites().queue(invites ->
@@ -128,9 +147,10 @@ public class EventListener extends ListenerAdapter
     }
 
     /**
-     * Helper method to check if the user is message spamming.
-     * @param discordUserID
-     * @return either true or false.
+     * Helper method to check if a user is message spamming.
+     * @param discordUserID : String to represent user's discord ID and assist in TreeMap structure to map each ID to
+     * a timestamp.
+     * @return either true or false based on recognition of message spam.
      */
     private boolean isMessageSpamming(String discordUserID)
     {
