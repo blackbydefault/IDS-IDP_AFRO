@@ -14,6 +14,10 @@ import java.util.List;
 
 public class CommandsManager extends ListenerAdapter
 {
+    /**
+     * Method to fire off a case command based on a slash command event object.
+     * @param event : Represents a SlashCommandInteractionEvent object.
+     */
     @Override
     public void onSlashCommandInteraction(@NotNull SlashCommandInteractionEvent event)
     {
@@ -48,6 +52,11 @@ public class CommandsManager extends ListenerAdapter
 
     //GLOBAL COMMAND
 
+    /**
+     * Method that initializes global commands when Guild/Server is online.
+     * (TAKES APPROXIMATELY ONE HOUR TO INITIALIZE NEW GLOBAL COMMANDS FROM START OF RUNTIME).
+     * @param event : Represents a guild/server ready object (used to detect if guild/server is online).
+     */
     @Override
     public void onGuildReady(@NotNull GuildReadyEvent event)
     {

@@ -136,6 +136,11 @@ public class EventListener extends ListenerAdapter
         invitesDisabled = true;
 
     ;}
+
+    /**
+     * Method to enable invites in server, used in recovery of anti-raid mechanism.
+     * @param event : GuildMemberJoinEvent object to represent a user event
+     */
     private void enableInvites(GuildMemberJoinEvent event)
     {
         invitesDisabled = false;
