@@ -26,7 +26,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class EventListener extends ListenerAdapter
 {
     private static final Map<String, TreeMap<Long, Integer>> userMessages = new HashMap<>();
-    private static final long SPAM_TIME_WINDOW = 5000;
+    private static final long SPAM_TIME_WINDOW = 3600000;
     private static final int MAX_MESSAGES_IN_WINDOW = 5;
     private static final int joinLimit = 5;
     private final AtomicInteger joinCount = new AtomicInteger(0);
